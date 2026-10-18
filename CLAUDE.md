@@ -2023,3 +2023,7 @@ because repeating them wastes everyone's time:
 The owner's steer throughout: implement the handoff as drawn, do not narrow scope,
 and do not invent data. Where a feed does not exist the page says so in copy rather
 than showing a number.
+
+## Commits
+
+Commit as Shauna Arnold <8376913+shaunagits@users.noreply.github.com>, never as Claude, and never add Co-Authored-By or "Generated with" lines. Before every push, check `git log -1 --format='%an'`. `.claude/settings.json` sets this automatically.
