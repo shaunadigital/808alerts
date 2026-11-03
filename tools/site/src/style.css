@@ -170,7 +170,7 @@ footer.site{background:var(--ink);color:var(--muted);padding:24px 20px 32px}
   .bar{padding:16px 48px}
   .wm{font-size:24px}
   .pick select{width:220px}
-  main{padding:8px 0 40px;width:960px}
+  main{padding:8px 0 40px;width:100%;max-width:960px}
   .card{display:grid;grid-template-columns:124px minmax(0,1fr) 156px;grid-auto-rows:auto}
   .card .c-top{display:contents}
   .card .c-id{grid-column:1;grid-row:1/span 6;padding:18px 16px;border-right:2px solid var(--line);gap:10px}
@@ -237,7 +237,7 @@ footer.site{background:var(--ink);color:var(--muted);padding:24px 20px 32px}
 @media (min-width:900px){
   .kick{padding:18px 0 0}
   .aboutfeed,.guidewrap{padding-left:0;padding-right:0}
-  .page{width:960px;margin:0 auto;padding:12px 0 40px}
+  .page{width:100%;max-width:960px;margin:0 auto;padding:12px 0 40px}
   .page>h1{font-size:40px}
   .roads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 }
@@ -332,3 +332,5 @@ footer.site{background:var(--ink);color:var(--muted);padding:24px 20px 32px}
   .mf .fl{height:30px;font-size:22px}
 }
 .threats .zt span a{color:var(--muted3)}
+/* 900 to 984px: the 960px column needs a gutter, or it sits on the screen edge */
+@media (min-width:900px) and (max-width:984px){main,.page,.kick,.aboutfeed,.guidewrap{padding-left:12px;padding-right:12px}}

@@ -23,10 +23,15 @@ function levelFor(isl) {
   return act.length ? act[0].level : 'QUIET';
 }
 function scopeName(isl) { return isl === 'ALL' ? 'ALL ISLANDS' : COUNTY_TILE[isl]; }
+// "KAUAʻI + OʻAHU + MAUI" reads as "Kauaʻi, Oʻahu and Maui" in a sentence.
+function placeList(where) {
+  var a = titleCase(where).split(/\s*\+\s*/);
+  return a.length < 2 ? a[0] : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
+}
 function eventList(act) {
   var seen = {}, out = [];
   act.forEach(function (c) {
-    var k = c.event + ' for ' + titleCase(c.where);
+    var k = c.event + ' for ' + placeList(c.where);
     if (!seen[k]) { seen[k] = 1; out.push(k); }
   });
   return out;

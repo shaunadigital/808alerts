@@ -36,7 +36,7 @@ HERO = '''<section class="hero" id="hero">
 <figure class="h-sat" id="hsat">
 <div class="frames" id="frames"></div>
 <div class="h-chip n"><i></i>LIVE SATELLITE · LAST 3 HOURS</div>
-<div class="h-bar"><div class="h-time"><b id="stime">LOADING…</b><span>NOAA/NASA GOES-West via NASA GIBS</span></div>
+<div class="h-bar"><div class="h-time"><b id="stime">LOADING…</b><span>NOAA/NASA GOES-West</span></div>
 <div class="h-btns"><button type="button" class="n" id="sloop" hidden>PAUSE LOOP</button><a class="n pri" id="smap" href="/map/">OPEN MAP →</a></div></div>
 <figcaption class="sr">Satellite imagery of the Hawaiian Islands from the GOES-West weather satellite over the last three hours, playing as a loop.</figcaption>
 </figure>

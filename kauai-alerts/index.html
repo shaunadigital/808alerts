@@ -202,7 +202,7 @@ footer.site{background:var(--ink);color:var(--muted);padding:24px 20px 32px}
   .bar{padding:16px 48px}
   .wm{font-size:24px}
   .pick select{width:220px}
-  main{padding:8px 0 40px;width:960px}
+  main{padding:8px 0 40px;width:100%;max-width:960px}
   .card{display:grid;grid-template-columns:124px minmax(0,1fr) 156px;grid-auto-rows:auto}
   .card .c-top{display:contents}
   .card .c-id{grid-column:1;grid-row:1/span 6;padding:18px 16px;border-right:2px solid var(--line);gap:10px}
@@ -269,7 +269,7 @@ footer.site{background:var(--ink);color:var(--muted);padding:24px 20px 32px}
 @media (min-width:900px){
   .kick{padding:18px 0 0}
   .aboutfeed,.guidewrap{padding-left:0;padding-right:0}
-  .page{width:960px;margin:0 auto;padding:12px 0 40px}
+  .page{width:100%;max-width:960px;margin:0 auto;padding:12px 0 40px}
   .page>h1{font-size:40px}
   .roads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 }
@@ -364,6 +364,8 @@ footer.site{background:var(--ink);color:var(--muted);padding:24px 20px 32px}
   .mf .fl{height:30px;font-size:22px}
 }
 .threats .zt span a{color:var(--muted3)}
+/* 900 to 984px: the 960px column needs a gutter, or it sits on the screen edge */
+@media (min-width:900px) and (max-width:984px){main,.page,.kick,.aboutfeed,.guidewrap{padding-left:12px;padding-right:12px}}
 
 </style>
 </head>
@@ -395,7 +397,7 @@ footer.site{background:var(--ink);color:var(--muted);padding:24px 20px 32px}
 <figure class="h-sat" id="hsat">
 <div class="frames" id="frames"></div>
 <div class="h-chip n"><i></i>LIVE SATELLITE · LAST 3 HOURS</div>
-<div class="h-bar"><div class="h-time"><b id="stime">LOADING…</b><span>NOAA/NASA GOES-West via NASA GIBS</span></div>
+<div class="h-bar"><div class="h-time"><b id="stime">LOADING…</b><span>NOAA/NASA GOES-West</span></div>
 <div class="h-btns"><button type="button" class="n" id="sloop" hidden>PAUSE LOOP</button><a class="n pri" id="smap" href="/map/">OPEN MAP →</a></div></div>
 <figcaption class="sr">Satellite imagery of the Hawaiian Islands from the GOES-West weather satellite over the last three hours, playing as a loop.</figcaption>
 </figure>
@@ -1245,10 +1247,15 @@ function levelFor(isl) {
   return act.length ? act[0].level : 'QUIET';
 }
 function scopeName(isl) { return isl === 'ALL' ? 'ALL ISLANDS' : COUNTY_TILE[isl]; }
+// "KAUAʻI + OʻAHU + MAUI" reads as "Kauaʻi, Oʻahu and Maui" in a sentence.
+function placeList(where) {
+  var a = titleCase(where).split(/\s*\+\s*/);
+  return a.length < 2 ? a[0] : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
+}
 function eventList(act) {
   var seen = {}, out = [];
   act.forEach(function (c) {
-    var k = c.event + ' for ' + titleCase(c.where);
+    var k = c.event + ' for ' + placeList(c.where);
     if (!seen[k]) { seen[k] = 1; out.push(k); }
   });
   return out;
