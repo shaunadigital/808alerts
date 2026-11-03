@@ -274,6 +274,95 @@ footer.site{background:var(--ink);color:var(--muted);padding:24px 20px 32px}
   .roads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 }
 .road .onmap{font-size:13px;font-weight:700;color:var(--ink)}
+
+/* Hero, 2026-11-02: split-flap status word, NWS wind-window countdown,
+   GOES-West satellite loop, county board. Design: docs/hero-design/. */
+.hero{background:var(--ink);color:var(--surface)}
+.h-st{padding:24px 16px 28px}
+.h-in{container-type:inline-size;display:flex;flex-direction:column;gap:16px;max-width:680px}
+.h-k{display:flex;align-items:center;gap:8px;font-size:11px;color:#bdb6aa}
+.h-k i{width:10px;height:10px;display:block;background:#5c5c5c}
+.hw{margin:0}
+.flaps{display:grid;grid-template-columns:repeat(var(--n),minmax(0,72px));gap:4px}
+.fl{position:relative;display:flex;align-items:center;justify-content:center;font-weight:800;font-stretch:77%;line-height:1;background:#2b2b2b;color:var(--surface)}
+.fl::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;margin-top:-1px;background:var(--ink);opacity:.45}
+.flaps .gap{display:block}
+.hw .fl{aspect-ratio:72/112;font-size:min(92px,calc((100cqw - (var(--n) - 1) * 4px) / var(--n) * 1.25))}
+.lv-WARNING .fl,.h-k i.lv-WARNING{background:var(--warn);color:#fff}
+.lv-WATCH .fl,.h-k i.lv-WATCH{background:var(--watch);color:#fff}
+.lv-ADVISORY .fl,.lv-UNKNOWN .fl,.h-k i.lv-ADVISORY,.h-k i.lv-UNKNOWN{background:var(--advis);color:var(--ink)}
+.lv-STATEMENT .fl,.h-k i.lv-STATEMENT{background:var(--surface);color:var(--ink)}
+.h-k i.lv-QUIET{background:var(--surface)}
+.lv-CHECKING .fl{color:var(--muted)}
+.h-sum{margin:0;font-size:19px;line-height:1.3;font-weight:600}
+.h-chk{margin:0;font-size:13px;line-height:1.5;color:#bdb6aa}
+.h-chk a{color:var(--accent)}
+.h-cd{border-top:2px solid #333;padding-top:18px;display:flex;flex-direction:column;gap:12px}
+.h-cdl{font-size:11px;line-height:1.4;color:var(--accent)}
+.h-cdn{display:flex;align-items:flex-end;gap:8px}
+.cdf{grid-template-columns:repeat(var(--n),40px);gap:3px}
+.cdf .fl{height:56px;font-size:46px;background:var(--accent);color:var(--ink)}
+.cdf .fl::after{opacity:.3}
+.h-cdn .u{font-size:14px;padding-bottom:4px}
+.h-cdnote{margin:0;font-size:12px;line-height:1.5;color:#bdb6aa}
+.h-ready{display:flex;flex-wrap:wrap;gap:8px}
+.h-ready a{min-height:44px;padding:0 16px;display:inline-flex;align-items:center;border:2px solid var(--accent);color:var(--accent);text-decoration:none;font-size:12px}
+.h-ready a.pri,.h-btns .pri{background:var(--accent);color:var(--ink)}
+.h-sat{margin:0;position:relative;height:260px;background:#0b1a2a;overflow:hidden}
+.frames img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s linear}
+.frames img.on{opacity:1}
+.h-chip{position:absolute;top:12px;left:12px;background:var(--ink);color:var(--surface);padding:7px 10px;font-size:10px;display:flex;gap:6px;align-items:center}
+.h-chip i{width:7px;height:7px;background:var(--accent);display:block}
+.h-bar{position:absolute;left:12px;right:12px;bottom:12px;display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.h-time{background:var(--ink);padding:6px 10px;display:flex;flex-direction:column;gap:1px;min-width:0}
+.h-time b{font-size:13px;font-weight:800}
+.h-time span{font-size:10px;color:#bdb6aa}
+.h-btns{display:flex;gap:6px;flex-shrink:0}
+.h-btns button,.h-btns a{min-height:44px;padding:0 12px;display:inline-flex;align-items:center;background:var(--ink);color:var(--accent);border:2px solid var(--accent);border-radius:0;text-decoration:none;font-size:11px}
+.h-btns a.pri{display:none}
+.cty{max-width:1200px;margin:0 auto;padding:4px 12px 0}
+.cty-g{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.ct{background:var(--surface);border:2px solid var(--ink);text-decoration:none;color:var(--ink);display:grid;grid-template-columns:72px minmax(0,1fr);grid-template-areas:"svg h" "svg mf" "svg d";column-gap:12px;row-gap:6px;padding:12px}
+.ct:hover,.ct.cur{box-shadow:inset 0 -6px 0 var(--accent)}
+.ct-h{grid-area:h;display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:800}
+.ct svg{grid-area:svg;width:72px;height:56px;align-self:center}
+.mf{grid-area:mf}
+.mf .flaps{grid-template-columns:repeat(var(--n),17px);gap:2px}
+.mf .fl{height:26px;font-size:19px}
+.mf .fl::after{height:1px;opacity:.25}
+.mf.lv-NONE .fl,.mf.lv-CHECKING .fl{background:var(--line);color:var(--ink)}
+.ct-d{grid-area:d;display:flex;flex-direction:column;gap:2px}
+.ct-d b{font-size:14px;line-height:1.35;font-weight:700}
+.ct-d span{font-size:12px;color:var(--muted3)}
+@media (prefers-reduced-motion:reduce){.frames img{transition:none}}
+@media (min-width:900px){
+  .hero{display:grid;grid-template-columns:minmax(0,52fr) minmax(0,48fr);min-height:600px}
+  .h-st{padding:48px 56px 48px 48px}
+  .h-in{gap:24px}
+  .flaps{gap:6px}
+  .hw .fl{font-size:min(92px,calc((100cqw - (var(--n) - 1) * 6px) / var(--n) * 1.25))}
+  .h-k{font-size:12px}
+  .h-sum{font-size:24px}
+  .h-chk{font-size:14px}
+  .h-cdl{font-size:12px}
+  .cdf{grid-template-columns:repeat(var(--n),52px);gap:4px}
+  .cdf .fl{height:72px;font-size:60px}
+  .h-cdn .u{font-size:16px;padding-bottom:6px}
+  .h-cdnote{font-size:13px}
+  .h-sat{height:auto;min-height:600px}
+  .h-chip{top:20px;left:20px;font-size:11px;padding:9px 12px}
+  .h-bar{left:20px;right:20px;bottom:20px}
+  .h-time b{font-size:15px}
+  .h-btns button,.h-btns a{padding:0 16px;font-size:12px}
+  .h-btns a.pri{display:inline-flex}
+  .cty{padding:32px 48px 0}
+  .cty-g{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+  .ct{grid-template-columns:minmax(0,1fr);grid-template-areas:"h" "svg" "mf" "d";row-gap:14px;padding:18px}
+  .ct-h{font-size:14px}
+  .ct svg{width:100%;height:96px}
+  .mf .flaps{grid-template-columns:repeat(var(--n),20px)}
+  .mf .fl{height:30px;font-size:22px}
+}
 .threats .zt span a{color:var(--muted3)}
 
 </style>
@@ -301,6 +390,17 @@ footer.site{background:var(--ink);color:var(--muted);padding:24px 20px 32px}
 </div>
 </header>
 <div id="feedwrap">
+<section class="hero" id="hero">
+<div class="h-st"><div class="h-in" id="hstatus"><!--SSR:HERO--><div class="h-k n"><i class="lv-CHECKING"></i>HAWAIʻI RIGHT NOW</div><p class="hw lv-CHECKING"><span class="sr">Checking alerts.</span><span class="flaps" aria-hidden="true" style="--n:8"><b class="fl">C</b><b class="fl">H</b><b class="fl">E</b><b class="fl">C</b><b class="fl">K</b><b class="fl">I</b><b class="fl">N</b><b class="fl">G</b></span></p><p class="h-sum">Checking the National Weather Service…</p><!--/SSR:HERO--></div></div>
+<figure class="h-sat" id="hsat">
+<div class="frames" id="frames"></div>
+<div class="h-chip n"><i></i>LIVE SATELLITE · LAST 3 HOURS</div>
+<div class="h-bar"><div class="h-time"><b id="stime">LOADING…</b><span>NOAA/NASA GOES-West via NASA GIBS</span></div>
+<div class="h-btns"><button type="button" class="n" id="sloop" hidden>PAUSE LOOP</button><a class="n pri" id="smap" href="/map/">OPEN MAP →</a></div></div>
+<figcaption class="sr">Satellite imagery of the Hawaiian Islands from the GOES-West weather satellite over the last three hours, playing as a loop.</figcaption>
+</figure>
+</section>
+<section class="cty" id="counties"><!--SSR:COUNTIES--><!--/SSR:COUNTIES--></section>
 <h1 class="kick n">BIG ISLAND ALERTS TODAY · HAWAIʻI ISLAND, NEWEST FIRST</h1>
 <div id="banners"><!--SSR:BANNERS--><!--/SSR:BANNERS--></div>
 <main id="feed"><noscript><div class="empty"><h2>808 Alerts needs JavaScript to keep alerts current.</h2><p>Go straight to the sources: <a href="https://www.weather.gov/hfo/">NWS Honolulu</a>, <a href="https://dod.hawaii.gov/hiema/">HI-EMA</a>, and your county emergency agency.</p></div></noscript><!--SSR:FEED--><div class="loading">Loading alerts…</div><!--/SSR:FEED--></main>
@@ -930,11 +1030,8 @@ function feedHTML(isl, showEnded) {
   var h = '';
   if (!active.length && nwsKnown) {
     if (isl === 'ALL') {
-      h += '<section class="quiet">' + islandSVG([], '#101010', 'Map of the Hawaiian Islands') +
-        '<div class="k n"><i></i>NOTHING IN EFFECT · ' + esc(fmtDay.format(new Date()).toUpperCase()) + '</div>' +
-        '<h2>No alerts in effect across Hawaiʻi right now.</h2>' +
-        '<p>Checked at ' + esc(tm(S.checkedAt || Date.now())) + ' against NWS Honolulu, Hawaiʻi County Civil Defense and Hawaiian Electric. This is not an all clear: conditions can change quickly, and new alerts show up here as soon as they’re issued.</p></section>';
-      h += tiles('A GOOD DAY TO GET READY');
+      // The hero above already says QUIET and offers the get-ready links.
+      h += '<div class="empty"><h2>No alerts in effect across Hawaiʻi right now.</h2><p>Checked at ' + esc(tm(S.checkedAt || Date.now())) + ' against NWS Honolulu, Hawaiʻi County Civil Defense and Hawaiian Electric. This is not an all clear: conditions can change quickly, and new alerts show up here as soon as they’re issued.</p></div>';
     } else {
       var ag = COUNTY_AGENCY[isl];
       h += '<div class="empty"><h2>No alerts in effect for ' + esc(FILTER_NAME[isl]) + ' right now.</h2><p>That covers the agencies we follow. It is not an all clear. For local updates, check with the <a href="' + ag[1] + '" target="_blank" rel="noopener">' + esc(ag[0]) + '</a>.</p></div>';
@@ -1122,6 +1219,189 @@ function roadsHTML() {
   return h;
 }
 
+/* ---------- the hero (added 2026-11-02) ----------
+   The top of every feed page: one big status word for the area the page covers,
+   a countdown to tropical-storm-force winds when NWS has published a window for
+   it, and a board with one tile per county. Built from the same cards as the
+   feed, so the hero and the feed can never disagree. The satellite loop beside
+   it is browser only (ui.js). */
+var LV_RANK = { WARNING: 4, WATCH: 3, ADVISORY: 2, STATEMENT: 1 };
+var COUNTY_ORDER = ['KAU', 'OAH', 'MAUCO', 'HAW'];
+var COUNTY_VB = { KAU: '0 1 29 15', OAH: '54 16 20 15', MAUCO: '81 30 39 24', HAW: '115 58 38 43' };
+var COUNTY_TILE = { KAU: 'KAUAʻI', OAH: 'OʻAHU', MAUCO: 'MAUI COUNTY', HAW: 'HAWAIʻI ISLAND' };
+var COUNTY_SUB = { KAU: 'Kauaʻi and Niʻihau', OAH: 'Oʻahu', MAUCO: 'Maui, Molokaʻi, Lānaʻi', HAW: 'Hawaiʻi Island' };
+var LEVEL_FILL = { WARNING: '#c22e22', WATCH: '#1c6f7d', ADVISORY: '#e8a317', STATEMENT: '#101010', UNKNOWN: '#8c8c8c', QUIET: '#cbc2b3', CHECKING: '#cbc2b3' };
+
+function nwsActiveFor(isl) {
+  return S.cards.filter(function (c) { return c.src === 'nws' && c.active && applies(c, isl); })
+    .sort(function (a, b) { return (LV_RANK[b.level] || 0) - (LV_RANK[a.level] || 0) || b.t - a.t; });
+}
+function levelFor(isl) {
+  if (S.nws.status === 'loading' && !S.nws.at) return 'CHECKING';
+  if (S.nws.status === 'fail') return 'UNKNOWN';
+  var act = nwsActiveFor(isl);
+  return act.length ? act[0].level : 'QUIET';
+}
+function scopeName(isl) { return isl === 'ALL' ? 'ALL ISLANDS' : COUNTY_TILE[isl]; }
+function eventList(act) {
+  var seen = {}, out = [];
+  act.forEach(function (c) {
+    var k = c.event + ' for ' + titleCase(c.where);
+    if (!seen[k]) { seen[k] = 1; out.push(k); }
+  });
+  return out;
+}
+
+/* ---- tropical-storm-force wind window ----
+   NWS Honolulu's tropical watches and warnings carry, zone by zone, a line like
+   "Window for Tropical Storm force winds: early Saturday afternoon until early
+   Sunday morning" (checked against the Hurricane Hone TCV, 2024-08-24). The
+   countdown counts to the START of the earliest window on the islands in view,
+   reading each part of day as its earliest hour, so it errs early, never late.
+   Nothing here guesses: no window in the text, no countdown. */
+var WDAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+function windowStart(phrase, sent) {
+  var p = String(phrase || '').toLowerCase().replace(/\s+/g, ' ').trim();
+  if (!p) return null;
+  if (/^(now|ongoing|currently)/.test(p)) return { now: true };
+  var mod = '';
+  var m = /^(early|late)\s+(.*)$/.exec(p);
+  if (m) { mod = m[1]; p = m[2]; }
+  var day = null, part = '';
+  if (/^tonight/.test(p)) { day = 'today'; part = 'night'; }
+  else {
+    m = /^(sunday|monday|tuesday|wednesday|thursday|friday|saturday|today|this)\b\s*(morning|afternoon|evening|night|overnight)?/.exec(p);
+    if (!m) return null;
+    day = m[1] === 'this' ? 'today' : m[1];
+    part = m[2] || '';
+  }
+  var base = { '': 0, morning: 6, afternoon: 12, evening: 18, night: 18, overnight: 0 }[part];
+  if (mod === 'early' && part === 'morning') base = 0;
+  if (mod === 'late') base = { '': 12, morning: 9, afternoon: 15, evening: 21, night: 21, overnight: 3 }[part];
+  // Calendar day in HST (UTC-10, no daylight saving).
+  var h = new Date(sent - 10 * 36e5);
+  var ahead = day === 'today' ? 0 : (WDAYS.indexOf(day) - h.getUTCDay() + 7) % 7;
+  return { t: Date.UTC(h.getUTCFullYear(), h.getUTCMonth(), h.getUTCDate() + ahead, base + 10) };
+}
+function windWindows() {
+  var out = [];
+  S.nws.active.forEach(function (a) {
+    if (!/Hurricane|Tropical Storm/.test(a.event || '')) return;
+    var d = String(a.desc || '').replace(/\s+/g, ' ');
+    var m = /Window for Tropical Storm force winds:\s*(.+?)\s+until\s+(.+?)(?=\s+-\s|\s+\*|\s+Window\b|$)/i.exec(d);
+    if (!m) return;
+    var st = windowStart(m[1], a.sent);
+    if (!st) return;
+    out.push({ start: st.now ? a.sent : st.t, now: !!st.now, from: m[1].trim(), until: clip(m[2].trim(), 60), zone: place(a.area), isl: islandsOf(a.ugc || []) });
+  });
+  return out;
+}
+function countdownFor(isl) {
+  if (S.nws.status !== 'ok') return null;
+  var want = isl === 'ALL' ? null : FILTER_ISL[isl];
+  var ws = windWindows().filter(function (w) { return !want || w.isl.some(function (i) { return want.indexOf(i) > -1; }); });
+  if (!ws.length) return null;
+  ws.sort(function (a, b) { return a.start - b.start; });
+  var w = ws[0];
+  var mine = want ? w.isl.filter(function (i) { return want.indexOf(i) > -1; }) : w.isl;
+  var where = whereLabel(mine);
+  var hrs = Math.floor((w.start - Date.now()) / 36e5);
+  return {
+    where: where, hrs: hrs, now: w.now || w.start <= Date.now(),
+    note: 'NWS forecast window for ' + w.zone + ': ' + w.from + ' until ' + w.until + '. Counted from the start of that window. Winds can arrive sooner, so finish getting ready early.'
+  };
+}
+
+/* ---- HTML ---- */
+function flapsHTML(word, cls) {
+  return '<span class="' + cls + '" aria-hidden="true" style="--n:' + word.length + '">' + word.split('').map(function (ch) {
+    return ch === ' ' ? '<i class="gap"></i>' : '<b class="fl" data-c="' + esc(ch) + '">' + esc(ch) + '</b>';
+  }).join('') + '</span>';
+}
+function heroData(isl) {
+  var lv = levelFor(isl);
+  var where = isl === 'ALL' ? 'any island' : FILTER_NAME[isl];
+  var act = nwsActiveFor(isl);
+  var others = S.cards.filter(function (c) { return c.active && c.src !== 'nws' && applies(c, isl); }).length;
+  var checkedAt = S.nws.at || S.checkedAt || Date.now();
+  var d = { lv: lv, word: lv, summary: '', checked: '', cd: null, ready: false };
+  if (lv === 'CHECKING') {
+    d.summary = 'Checking the National Weather Service…';
+  } else if (lv === 'UNKNOWN') {
+    d.summary = 'We can’t reach the National Weather Service right now.';
+    var last = act.length ? eventList(act).slice(0, 2).join('; ') : 'no warnings, watches or advisories';
+    d.checked = 'That does not mean nothing is happening. ' + (S.nws.at ? 'The last good check, at ' + tm(S.nws.at) + ' HST, showed ' + last + '. ' : '') +
+      'Listen to local radio or check <a href="' + NWS_PAGE + '" target="_blank" rel="noopener">weather.gov/hfo</a>.';
+  } else if (lv === 'QUIET') {
+    d.summary = 'No warnings, watches or advisories for ' + where + '.' + (others ? ' ' + others + (others === 1 ? ' other update' : ' other updates') + ' below.' : '');
+    d.checked = 'Checked with the National Weather Service at ' + tm(checkedAt) + ' HST. Not an all clear: new alerts show up here as soon as they’re issued.';
+    d.ready = true;
+  } else {
+    var ev = eventList(act);
+    d.summary = ev.slice(0, 2).join('. ') + '.' + (ev.length > 2 ? ' Plus ' + (ev.length - 2) + ' more below.' : '');
+    d.checked = 'Checked with the National Weather Service at ' + tm(checkedAt) + ' HST. Every alert below links to the agency that issued it.';
+    d.cd = countdownFor(isl);
+  }
+  return d;
+}
+function heroSig(isl) {
+  var d = heroData(isl);
+  return [d.lv, d.summary, d.cd ? d.cd.hrs + '|' + d.cd.where : '', countyRows().map(function (r) { return r.lv + r.detail; }).join('|')].join('#');
+}
+function heroHTML(isl) {
+  var d = heroData(isl);
+  var h = '<div class="h-k n"><i class="lv-' + d.lv + '"></i>HAWAIʻI RIGHT NOW · ' + esc(scopeName(isl)) + '</div>' +
+    '<p class="hw lv-' + d.lv + '"><span class="sr">Alert level for ' + esc(isl === 'ALL' ? 'all islands' : FILTER_NAME[isl]) + ': ' + esc(titleCase(d.word)) + '.</span>' + flapsHTML(d.word, 'flaps') + '</p>' +
+    '<p class="h-sum">' + esc(d.summary) + '</p>' +
+    (d.checked ? '<p class="h-chk">' + (d.lv === 'UNKNOWN' ? d.checked : esc(d.checked)) + '</p>' : '');
+  if (d.cd) {
+    var c = d.cd;
+    h += '<div class="h-cd">';
+    if (c.now) {
+      h += '<div class="h-cdl n">TROPICAL-STORM-FORCE WINDS ARE POSSIBLE NOW ON ' + esc(c.where) + '</div>';
+    } else {
+      var n = Math.max(0, c.hrs);
+      h += '<div class="h-cdl n">TROPICAL-STORM-FORCE WINDS COULD START ON ' + esc(c.where) + ' IN ' + (n < 1 ? 'UNDER' : 'ABOUT') + '</div>' +
+        '<div class="h-cdn"><span class="sr">' + (n < 1 ? 'under 1 hour' : n + ' hours') + '</span>' + flapsHTML(String(Math.max(1, n)), 'flaps cdf') +
+        '<span class="n u" aria-hidden="true">' + (n <= 1 ? 'HR' : 'HRS') + '</span></div>';
+    }
+    h += '<p class="h-cdnote">' + esc(c.note) + '</p></div>';
+  } else if (d.ready) {
+    h += '<div class="h-cd"><div class="h-cdl n">A GOOD DAY TO GET READY</div><div class="h-ready">' +
+      '<a class="n pri" href="/hurricane-preparation-hawaii/">MAKE A PLAN</a><a class="n" href="/emergency-shelters-hawaii/">SHELTERS</a><a class="n" href="/hurricane-kit-checklist/">KIT CHECKLIST</a></div></div>';
+  }
+  return h;
+}
+function countyRows() {
+  return COUNTY_ORDER.map(function (k) {
+    var lv = levelFor(k);
+    var act = nwsActiveFor(k);
+    var word, detail;
+    if (lv === 'CHECKING') { word = 'CHECKING'; detail = 'Checking…'; }
+    else if (lv === 'UNKNOWN') {
+      word = S.nws.at ? 'AS OF ' + tm(S.nws.at).replace(/\s?[AP]M$/, '') : 'UNKNOWN';
+      detail = act.length ? act[0].event + ' at last check' : (S.nws.at ? 'No alerts at last check' : 'Can’t reach NWS');
+    }
+    else if (lv === 'QUIET') { word = 'NO ALERTS'; detail = 'No active alerts'; }
+    else { word = lv; detail = act[0].event + (act.length > 1 ? ' + ' + (act.length - 1) + ' more' : ''); }
+    return { k: k, lv: lv, word: word, detail: detail };
+  });
+}
+function countiesHTML(isl) {
+  var paths = ISL_ORDER.map(function (i) { return [i, ISL_PATHS[i]]; });
+  return '<div class="rule"><span class="n">BY COUNTY</span><span></span></div><div class="cty-g">' + countyRows().map(function (r) {
+    var mine = FILTER_ISL[r.k];
+    var fill = LEVEL_FILL[r.lv] || LEVEL_FILL.QUIET;
+    var svg = '<svg viewBox="' + COUNTY_VB[r.k] + '" preserveAspectRatio="xMinYMid meet" aria-hidden="true">' + paths.map(function (p) {
+      return mine.indexOf(p[0]) > -1 ? '<path d="' + p[1] + '" fill="' + fill + '"/>' : '';
+    }).join('') + '</svg>';
+    return '<a class="ct' + (r.k === isl ? ' cur' : '') + '" href="' + FILTER_PAGE[r.k] + '"' + (r.k === isl ? ' aria-current="page"' : '') + '>' +
+      '<span class="ct-h"><span class="n">' + esc(COUNTY_TILE[r.k]) + '</span><span aria-hidden="true">→</span></span>' + svg +
+      '<span class="mf lv-' + (r.lv === 'QUIET' ? 'NONE' : r.lv) + '">' + flapsHTML(r.word.replace(/[^A-Z0-9: ]/g, ''), 'flaps') + '</span>' +
+      '<span class="ct-d"><b>' + esc(r.detail) + '</b><span>' + esc(COUNTY_SUB[r.k]) + '</span></span></a>';
+  }).join('') + '</div>';
+}
+
 /* ---------- browser layer ----------
    Everything above builds data and HTML strings and runs the same on Cloudflare,
    which uses it to send each page with the current alerts already in it.
@@ -1143,6 +1423,108 @@ function updated() {
 }
 function setMeta(sel, attr, val) { var m = document.querySelector(sel); if (m) m.setAttribute(attr, val); }
 
+/* ---------- hero: split-flap status and satellite loop ---------- */
+var REDUCE = false;
+try { REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { }
+var heroLast = null;
+// Each tile runs through random letters (or digits) and lands on its own,
+// left to right, like an airport board. Skipped for reduced motion.
+function flip(root) {
+  if (REDUCE || !root) return;
+  Array.prototype.forEach.call(root.querySelectorAll('.flaps'), function (g, gi) {
+    Array.prototype.forEach.call(g.querySelectorAll('.fl[data-c]'), function (el, i) {
+      var target = el.getAttribute('data-c');
+      var pool = /[0-9]/.test(target) ? '0123456789' : /[A-Z]/.test(target) ? 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' : '';
+      if (!pool) return;
+      var steps = 5 + gi * 2 + i * 2, n = 0;
+      var t = setInterval(function () {
+        if (++n >= steps) { el.textContent = target; clearInterval(t); return; }
+        el.textContent = pool.charAt(Math.floor(Math.random() * pool.length));
+      }, 55);
+    });
+  });
+}
+function renderHero() {
+  var hs = $('#hstatus'), ct = $('#counties');
+  if (!hs) return;
+  var sig = heroSig(S.island);
+  if (sig === heroLast) return;
+  heroLast = sig;
+  hs.innerHTML = heroHTML(S.island);
+  if (ct) ct.innerHTML = countiesHTML(S.island);
+  flip($('#hero')); flip(ct);
+}
+
+var SAT = { frames: [], i: 0, timer: null, paused: REDUCE, wide: true };
+var GIBS = 'https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=GOES-West_ABI_GeoColor&STYLES=&CRS=EPSG:4326&FORMAT=image/jpeg';
+// GIBS publishes GOES-West frames roughly 50 to 60 minutes behind real time
+// (measured 2026-11-03: anything newer comes back as a 5.9KB blank), so the
+// loop ends about 70 minutes ago, six frames half an hour apart.
+function satTimes() {
+  var step = 6e5, end = Math.floor((Date.now() - 70 * 6e4) / step) * step, out = [];
+  for (var k = 5; k >= 0; k--) out.push(end - k * 30 * 6e4);
+  return out;
+}
+function satURL(t) {
+  var iso = new Date(t).toISOString().replace(/\.\d+Z$/, 'Z');
+  return GIBS + (SAT.wide ? '&BBOX=13.5,-168,27.5,-147&WIDTH=840&HEIGHT=560' : '&BBOX=15.5,-164,25.5,-151&WIDTH=600&HEIGHT=460') + '&TIME=' + iso;
+}
+function satFetch(t) {
+  return fetch(satURL(t)).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.blob(); })
+    .then(function (b) { if (b.size < 20000) throw new Error('blank'); return { t: t, src: URL.createObjectURL(b) }; });
+}
+function satShow(i) {
+  var box = $('#frames'); if (!box) return;
+  SAT.i = i;
+  Array.prototype.forEach.call(box.children, function (img, k) { img.classList.toggle('on', k === i); });
+  var f = SAT.frames[i];
+  if (f) $('#stime').textContent = tm(f.t) + ' HST';
+}
+function satDraw() {
+  var box = $('#frames'); if (!box) return;
+  box.innerHTML = SAT.frames.map(function (f) { return '<img alt="" src="' + f.src + '">'; }).join('');
+  satShow(SAT.frames.length - 1);
+  var b = $('#sloop');
+  if (b) { b.hidden = SAT.frames.length < 2; b.textContent = SAT.paused ? 'PLAY LOOP' : 'PAUSE LOOP'; }
+}
+function satTick() {
+  clearTimeout(SAT.timer);
+  if (SAT.paused || document.hidden || SAT.frames.length < 2) return;
+  var last = SAT.i === SAT.frames.length - 1;
+  SAT.timer = setTimeout(function () { satShow((SAT.i + 1) % SAT.frames.length); satTick(); }, last ? 2400 : 900);
+}
+function satLoad() {
+  if (!$('#hsat')) return;
+  var times = satTimes();
+  var old = SAT.frames;
+  // Newest frame first so something shows quickly; the rest only if motion is
+  // welcome and the connection is not in data-saver mode.
+  satFetch(times[times.length - 1]).catch(function () { return satFetch(times[times.length - 2]); }).then(function (f) {
+    SAT.frames = [f]; satDraw();
+    var save = navigator.connection && navigator.connection.saveData;
+    if (REDUCE || save) return;
+    return Promise.all(times.slice(0, -1).filter(function (t) { return t < f.t; }).map(function (t) { return satFetch(t).catch(function () { return null; }); }))
+      .then(function (rest) {
+        SAT.frames = rest.filter(Boolean).concat([f]).sort(function (a, b) { return a.t - b.t; });
+        satDraw(); satTick();
+      });
+  }).catch(function () {
+    if (!SAT.frames.length) $('#stime').textContent = 'SATELLITE UNAVAILABLE';
+  }).then(function () {
+    old.forEach(function (f) { if (SAT.frames.indexOf(f) < 0) URL.revokeObjectURL(f.src); });
+  });
+}
+function satInit() {
+  if (!$('#hsat') || !window.fetch || !window.URL) return;
+  try { SAT.wide = window.matchMedia('(min-width:900px)').matches; } catch (e) { }
+  var b = $('#sloop');
+  if (b) b.onclick = function () { SAT.paused = !SAT.paused; b.textContent = SAT.paused ? 'PLAY LOOP' : 'PAUSE LOOP'; satTick(); };
+  document.addEventListener('visibilitychange', satTick);
+  var sm = $('#smap'); if (sm) sm.href = filterMapHref(FIXED);
+  satLoad();
+  setInterval(satLoad, 30 * 6e4);
+}
+
 function renderFeed() {
   var feed = $('#feed');
   if (!feed) return;
@@ -1150,6 +1532,7 @@ function renderFeed() {
     if (!feed.getAttribute('data-ssr')) feed.innerHTML = '<div class="loading">Loading alerts from the National Weather Service and county agencies…</div>';
     return;
   }
+  renderHero();
   $('#banners').innerHTML = bannerHTML(S.island);
   feed.innerHTML = feedHTML(S.island, S.showEnded);
   var now = $('#now'); if (now) now.innerHTML = rightNowHTML(S.island);
@@ -1237,6 +1620,12 @@ function refresh() {
     } catch (e) { }
   }
   window.addEventListener('hashchange', route);
+  // A server-rendered hero carries the signature of what it shows, so the first
+  // refresh only redraws it if something actually changed. Either way the
+  // tiles flip in once on arrival.
+  var hs = $('#hstatus');
+  if (hs) { heroLast = hs.getAttribute('data-sig'); flip($('#hero')); flip($('#counties')); }
+  satInit();
   route();
   refresh();
   setInterval(refresh, REFRESH);

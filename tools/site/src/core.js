@@ -539,11 +539,8 @@ function feedHTML(isl, showEnded) {
   var h = '';
   if (!active.length && nwsKnown) {
     if (isl === 'ALL') {
-      h += '<section class="quiet">' + islandSVG([], '#101010', 'Map of the Hawaiian Islands') +
-        '<div class="k n"><i></i>NOTHING IN EFFECT · ' + esc(fmtDay.format(new Date()).toUpperCase()) + '</div>' +
-        '<h2>No alerts in effect across Hawaiʻi right now.</h2>' +
-        '<p>Checked at ' + esc(tm(S.checkedAt || Date.now())) + ' against NWS Honolulu, Hawaiʻi County Civil Defense and Hawaiian Electric. This is not an all clear: conditions can change quickly, and new alerts show up here as soon as they’re issued.</p></section>';
-      h += tiles('A GOOD DAY TO GET READY');
+      // The hero above already says QUIET and offers the get-ready links.
+      h += '<div class="empty"><h2>No alerts in effect across Hawaiʻi right now.</h2><p>Checked at ' + esc(tm(S.checkedAt || Date.now())) + ' against NWS Honolulu, Hawaiʻi County Civil Defense and Hawaiian Electric. This is not an all clear: conditions can change quickly, and new alerts show up here as soon as they’re issued.</p></div>';
     } else {
       var ag = COUNTY_AGENCY[isl];
       h += '<div class="empty"><h2>No alerts in effect for ' + esc(FILTER_NAME[isl]) + ' right now.</h2><p>That covers the agencies we follow. It is not an all clear. For local updates, check with the <a href="' + ag[1] + '" target="_blank" rel="noopener">' + esc(ag[0]) + '</a>.</p></div>';

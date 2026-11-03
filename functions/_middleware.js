@@ -80,6 +80,9 @@ async function feedPage(ctx, res, island) {
   if (!(await freshData(ctx, false)) || C.S.nws.status === 'loading') return res;
   let html = await res.text();
   html = html.replace('<main id="feed">', '<main id="feed" data-ssr="1">');
+  html = html.replace('<div class="h-in" id="hstatus">', '<div class="h-in" id="hstatus" data-sig="' + attr(C.heroSig(island)) + '">');
+  html = between(html, 'HERO', C.heroHTML(island));
+  html = between(html, 'COUNTIES', C.countiesHTML(island));
   html = between(html, 'BANNERS', C.bannerHTML(island));
   html = between(html, 'FEED', C.feedHTML(island, false));
   html = between(html, 'NOW', C.rightNowHTML(island));
