@@ -70,6 +70,20 @@ proclamations are wanted but have no feed yet.
 
 ## Open to-dos for the next session
 
+- **Hero follow-ups (shipped 2026-11-02, live and checked at 375, 912, 960 and
+  1440px).** Still open:
+  - The countdown's text matching was tested against the 2024 Hurricane Hone TCV
+    only. Check it against the first real tropical watch or warning (does the
+    "Window for Tropical Storm force winds" line parse, does the hour count look
+    right).
+  - Live share image: proposed 2026-11-02, not built. The Pages Function could
+    generate `og:image` from the current status ("WARNING · Hawaiʻi Island") so a
+    link pasted during a storm previews the status, not the logo.
+  - Satellite weight is about 1MB per desktop visit (500KB on phones). If traffic
+    needs paring, show one still frame until someone taps play.
+- **Pushing.** The linked-computer shell and the cloud session have no GitHub login
+  for this repo, so a session can commit (as Shauna Arnold) but the owner pushes from
+  her own Terminal: `cd ~/Desktop/claudecode/808-alert && git push`.
 - **Add a credit link to the owner's agency website** (requested 2026-09-24; agency
   settled 2026-10-08). The agency is **shauna.digital**, URL `https://shauna.digital`
   (threadhawaii.com is retired and now redirects there). Use the standard credit the

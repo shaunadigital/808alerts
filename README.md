@@ -12,6 +12,7 @@ During a storm, the information people need is split across the National Weather
 
 ## What it does
 
+- **A status hero at the top.** The most serious alert level in effect as a split-flap word, a countdown to tropical-storm-force winds when NWS publishes a window for them, a live GOES-West satellite loop, and a board with one tile per county.
 - **One feed for every island.** NWS alerts, Hawaiʻi County road closures, open shelters and Hawaiian Electric releases, grouped by day. One island dropdown is the only control.
 - **Warnings stay on top.** Active warnings pin above the chronological flow until they end, so newer statements cannot bury them.
 - **Alerts are threaded.** NWS updates are joined into a single card with their history, and multi-zone alerts are grouped and split back out by area on the detail page.
@@ -27,6 +28,7 @@ During a storm, the information people need is split across the National Weather
 | [National Weather Service](https://www.weather.gov/hfo/) (`api.weather.gov`) | Active and recently ended alerts for Hawaiʻi |
 | Hawaiʻi County Civil Defense | Road closures (last 7 days) and open shelters |
 | Hawaiian Electric | Outage and utility news releases |
+| [NASA GIBS](https://www.earthdata.nasa.gov/engage/open-data-services-software/earthdata-developer-portal/gibs-api) | GOES-West satellite imagery for the hero loop |
 
 ## Stack
 
@@ -39,6 +41,7 @@ During a storm, the information people need is split across the National Weather
 
 ```bash
 python3 tools/site/build.py              # regenerate the feed pages
+node tools/site/test-hero.mjs            # check the hero logic
 npx wrangler pages dev . --port 8808     # serve with the server-side function
 ```
 
