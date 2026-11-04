@@ -45,21 +45,21 @@ HERO = '''<section class="hero" id="hero">
 '''
 
 def feed_body(h1, about_h2, about, guide=''):
-    return '''<div id="feedwrap">
-''' + HERO + '''<h1 class="kick n">''' + h1 + '''</h1>
-<div id="banners"><!--SSR:BANNERS--><!--/SSR:BANNERS--></div>
-<main id="feed"><noscript><div class="empty"><h2>808 Alerts needs JavaScript to keep alerts current.</h2><p>Go straight to the sources: <a href="https://www.weather.gov/hfo/">NWS Honolulu</a>, <a href="https://dod.hawaii.gov/hiema/">HI-EMA</a>, and your county emergency agency.</p></div></noscript><!--SSR:FEED--><div class="loading">Loading alerts…</div><!--/SSR:FEED--></main>
+    return '''<main id="feedwrap" tabindex="-1">
+<h1 class="kick n">''' + h1 + '''</h1>
+''' + HERO + '''<div id="banners"><!--SSR:BANNERS--><!--/SSR:BANNERS--></div>
+<div id="feed"><noscript><div class="empty"><h2>808 Alerts needs JavaScript to keep alerts current.</h2><p>Go straight to the sources: <a href="https://www.weather.gov/hfo/">NWS Honolulu</a>, <a href="https://dod.hawaii.gov/hiema/">HI-EMA</a>, and your county emergency agency.</p></div></noscript><!--SSR:FEED--><div class="loading">Loading alerts…</div><!--/SSR:FEED--></div>
 <section class="aboutfeed"><div><h2>''' + about_h2 + '''</h2>''' + about + '''<div id="now"><!--SSR:NOW--><!--/SSR:NOW--></div></div></section>
-''' + ('<div class="guidewrap"><section class="guide">\n' + guide + '\n</section></div>\n' if guide else '<div class="guidewrap"></div>\n') + '''</div>
-<div id="detail" hidden></div>'''
+''' + ('<div class="guidewrap"><section class="guide">\n' + guide + '\n</section></div>\n' if guide else '<div class="guidewrap"></div>\n') + '''</main>
+<div id="detail" tabindex="-1" hidden></div>'''
 
-ROADS_BODY = '''<div id="feedwrap">
-<main class="page">
+ROADS_BODY = '''<main id="feedwrap" tabindex="-1">
+<div class="page">
 <h1>Big Island road closures today</h1>
 <p class="lead">Every road the County of Hawaiʻi lists as closed or down to one lane, straight from Hawaiʻi County Civil Defense’s road closure map, newest first. The list refreshes every minute while this page is open.</p>
 <div id="banners"></div>
 <div id="roads"><!--SSR:ROADS--><div class="loading">Loading the county road closure list…</div><!--/SSR:ROADS--></div>
-</main>
+</div>
 <div class="guidewrap"><section class="guide">
 <h2>State highways are listed separately</h2>
 <p>This list is the county’s. Lane closures and roadwork on state highways, such as the Hawaiʻi Belt Road (Route 11 and Route 19), are posted by the Hawaiʻi Department of Transportation.</p>
@@ -73,8 +73,8 @@ ROADS_BODY = '''<div id="feedwrap">
 <p>Each entry is read from the public road closure layer that Hawaiʻi County Civil Defense and the Department of Public Works maintain. It includes long-term closures, some of them years old, as well as new ones from storms, landslides and flooding. New closures from the last 7 days are marked NEW and also appear in the <a href="/hawaii-island-alerts/">Big Island alerts feed</a>.</p>
 <p>A road missing from this list is not necessarily open. The county posts closures as crews confirm them. If you come across a hazard, call 911 when it is an emergency, or Hawaiʻi County Civil Defense at <a href="tel:8089350031">(808) 935-0031</a>.</p>
 </section></div>
-</div>
-<div id="detail" hidden></div>'''
+</main>
+<div id="detail" tabindex="-1" hidden></div>'''
 
 HOME_ABOUT = '<p>808 Alerts brings every official alert for the Hawaiian Islands into one list, newest first: National Weather Service warnings, watches and advisories (hurricanes, tropical storms, flash floods, high surf, high wind and tsunami), Hawaiʻi County Civil Defense road closures and shelter openings, and Hawaiian Electric storm and outage updates. Each alert is tagged with the islands it covers and links to the agency that issued it. Choose an island at the top for <a href="/kauai-alerts/">Kauaʻi</a>, <a href="/oahu-alerts/">Oʻahu</a>, <a href="/maui-alerts/">Maui County</a> or <a href="/hawaii-island-alerts/">Hawaiʻi Island</a> alerts, or see every <a href="/big-island-road-closures/">Big Island road closure</a>.</p>'
 

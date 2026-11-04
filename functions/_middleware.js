@@ -79,7 +79,7 @@ function send(html, status) {
 async function feedPage(ctx, res, island) {
   if (!(await freshData(ctx, false)) || C.S.nws.status === 'loading') return res;
   let html = await res.text();
-  html = html.replace('<main id="feed">', '<main id="feed" data-ssr="1">');
+  html = html.replace('<div id="feed">', '<div id="feed" data-ssr="1">');
   html = html.replace('<div class="h-in" id="hstatus">', '<div class="h-in" id="hstatus" data-sig="' + attr(C.heroSig(island)) + '">');
   html = between(html, 'HERO', C.heroHTML(island));
   html = between(html, 'COUNTIES', C.countiesHTML(island));
@@ -103,7 +103,7 @@ async function alertPage(ctx, url, key) {
   let c = C.findCard(key);
   if (!c && (await freshData(ctx, true))) c = C.findCard(key);
   html = html.replace('<body>', '<body class="detail">')
-    .replace('<div id="feedwrap">', '<div id="feedwrap" hidden>')
+    .replace('<main id="feedwrap" tabindex="-1">', '<main id="feedwrap" tabindex="-1" hidden>')
     .replace('<a class="back n" id="back" href="/" hidden>', '<a class="back n" id="back" href="/">')
     .replace('<div class="pick" id="pick">', '<div class="pick" id="pick" hidden>');
   if (!c) {

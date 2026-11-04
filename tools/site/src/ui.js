@@ -183,6 +183,7 @@ function route() {
   $('#detail').hidden = !detail;
   $('#pick').hidden = detail;
   $('#back').hidden = !detail;
+  $('#skip').setAttribute('href', detail ? '#detail' : '#feedwrap');
   if (detail) renderDetail(); else renderFeed();
 }
 
