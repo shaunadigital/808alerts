@@ -512,14 +512,14 @@ function bannerHTML(isl) {
   isl = isl || 'ALL';
   var out = '';
   if (S.nws.status === 'fail') {
-    out += '<div class="banner" role="status"><strong>CAN’T REACH THE NATIONAL WEATHER SERVICE</strong><span>' +
+    out += '<div class="banner"><strong>CAN’T REACH THE NATIONAL WEATHER SERVICE</strong><span>' +
       (S.nws.at ? 'Last good check was ' + esc(whenShort(S.nws.at)) + ', so NWS alerts below may be out of date. ' : 'NWS alerts are missing below until it answers. ') +
       'Retrying every minute. <a href="' + NWS_PAGE + '" target="_blank" rel="noopener">Check weather.gov directly</a></span></div>';
   }
   var others = [];
   if ((isl === 'ALL' || isl === 'HAW') && (S.roads.status === 'fail' || S.shelters.status === 'fail')) others.push('Hawaiʻi County Civil Defense (road closures and shelters)');
   if (isl !== 'KAU' && S.heco.status === 'fail') others.push('Hawaiian Electric updates');
-  if (others.length) out += '<div class="banner" role="status"><strong>SOME SOURCES AREN’T ANSWERING</strong><span>Couldn’t load ' + esc(others.join(' or ')) + '. Anything from them is missing below, which does not mean nothing is happening.</span></div>';
+  if (others.length) out += '<div class="banner"><strong>SOME SOURCES AREN’T ANSWERING</strong><span>Couldn’t load ' + esc(others.join(' or ')) + '. Anything from them is missing below, which does not mean nothing is happening.</span></div>';
   return out;
 }
 

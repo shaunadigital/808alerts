@@ -130,7 +130,9 @@ function renderFeed() {
     return;
   }
   renderHero();
-  $('#banners').innerHTML = bannerHTML(S.island);
+  // Only touch the banners when they change, so a redraw never re-inserts them.
+  var bh = bannerHTML(S.island), bn = $('#banners');
+  if (bn && bn.innerHTML !== bh) bn.innerHTML = bh;
   feed.innerHTML = feedHTML(S.island, S.showEnded);
   var now = $('#now'); if (now) now.innerHTML = rightNowHTML(S.island);
   var more = $('#more');
@@ -187,6 +189,30 @@ function route() {
   if (detail) renderDetail(); else renderFeed();
 }
 
+/* ---------- screen reader announcements ----------
+   Two visually hidden live regions sit outside #feedwrap and #detail, so no
+   redraw replaces them. Each is emptied a few seconds after it speaks, so the
+   same words can be announced again later. */
+var SAY = { rec: null, timers: {} };
+function speak(id, text) {
+  var el = document.getElementById(id);
+  if (!el || !text) return;
+  clearTimeout(SAY.timers[id]);
+  el.textContent = '';
+  // a short gap so a repeat of the last words still counts as a change
+  setTimeout(function () {
+    el.textContent = text;
+    SAY.timers[id] = setTimeout(function () { el.textContent = ''; }, 7000);
+  }, 150);
+}
+function checkAnnounce() {
+  if (PAGE === 'roads') return;
+  var r = announce(SAY.rec, alertSnapshot(S.island), S.island);
+  SAY.rec = r.rec;
+  speak('say-now', r.assertive);
+  speak('say-polite', r.polite);
+}
+
 function refresh() {
   var jobs = PAGE === 'roads' ? [loadRoads()] : [loadNWS(), loadRoads(), loadShelters(), loadHECO()];
   return Promise.all(jobs).then(function () {
@@ -194,7 +220,8 @@ function refresh() {
     if (PAGE !== 'roads') assemble();
     updated(); route();
     if (PAGE === 'roads') return;
-    return loadNWSHistory().then(function () { assemble(); route(); });
+    checkAnnounce();
+    return loadNWSHistory().then(function () { assemble(); route(); checkAnnounce(); });
   });
 }
 
