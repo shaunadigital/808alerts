@@ -1774,7 +1774,7 @@ reused). Driving the existing project from GitHub Actions gets the same push-to-
 result with none of that. It also keeps something the Git integration cannot do at all:
 control over exactly which files get published. See the exclusion list below.
 
-**Two repository secrets** on `shaunagits/808alerts` authenticate the deploy:
+**Two repository secrets** on `shaunadigital/808alerts` (moved from `shaunagits/808alerts` 2026-11-04; the old URL redirects) authenticate the deploy:
 `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. The token is scoped to **Cloudflare
 Pages: Edit** and nothing else, so anything needing broader permissions will fail by
 design. Do not widen it to work around an error, and do not echo either secret in a
