@@ -1,0 +1,210 @@
+/* GET /api/app/today?island=oahu|maui|kauai|hawaii
+ *
+ * Read-only JSON for the Tradewind iPhone app: active alerts for one island,
+ * plus road closures and Hawaiian Electric outage counts where this site has
+ * them. It reads the same state the pages render (functions/_lib/core.js).
+ *
+ * A failed source is never an empty source: each block carries a status, and a
+ * response without good NWS data is not cached.
+ */
+import * as C from '../../_lib/core.js';
+
+const UA = '808alerts.com storm information (contact: shauna.coy@gmail.com)';
+const ISLANDS = {
+  oahu: { code: 'OAH', name: 'Oʻahu', county: 'HIC003' },
+  maui: { code: 'MAU', name: 'Maui', county: 'HIC009' },
+  kauai: { code: 'KAU', name: 'Kauaʻi', county: null },
+  hawaii: { code: 'HAW', name: 'Hawaiʻi Island', county: 'HIC001' }
+};
+const ALLOWED = Object.keys(ISLANDS);
+const NWS_NAME = 'National Weather Service Honolulu';
+const NOTICE = 'Not an official alert system. Follow official instructions, and call 911 in an emergency.';
+const LEVEL_RANK = { WARNING: 0, WATCH: 1, ADVISORY: 2, STATEMENT: 3 };
+const WEEK_MS = 7 * 864e5;
+const FRESH_MS = 60e3;
+const BUDGET_MS = 8000;
+
+// Cached at the edge only. If phones cached it too, the two lifetimes would add up
+// and an alert could be ten minutes old.
+const CACHE_5_MIN = 'public, max-age=0, s-maxage=300';
+
+let loadedAt = 0;
+async function load() {
+  C.setFetchHeaders({ 'User-Agent': UA });
+  await C.loadAll();
+  loadedAt = Date.now();
+}
+async function freshData(ctx) {
+  if (Date.now() - loadedAt < FRESH_MS) return true;
+  const job = load().then(() => true, () => false);
+  ctx.waitUntil(job);
+  const inTime = await Promise.race([job, new Promise((r) => setTimeout(() => r(false), BUDGET_MS))]);
+  return inTime || loadedAt > 0;
+}
+
+function iso(t) { return t ? new Date(t).toISOString() : null; }
+function oneLine(s) { return String(s || '').replace(/\s+/g, ' ').trim(); }
+
+// Alerts can cover several islands. List only the zones on this one.
+function areasOn(card, code) {
+  const names = [];
+  card.threads.forEach(({ latest }) => {
+    const parts = latest.area.split(/;\s*/).map((s) => s.trim()).filter(Boolean);
+    const aligned = parts.length === latest.ugc.length;
+    parts.forEach((name, i) => {
+      if (!aligned || (C.Z[latest.ugc[i]] || []).includes(code)) names.push(C.place(name));
+    });
+  });
+  return [...new Set(names)];
+}
+
+function alertJSON(card, code) {
+  const latest = card.threads[0].latest;
+  const hasEnd = card.until && card.until !== 'Until further notice';
+  return {
+    id: card.id,
+    title: card.event,
+    summary: oneLine(card.body.replace(' Open for the danger ratings in your area.', '')) || oneLine(card.head),
+    severity: card.baseLevel.toLowerCase(),
+    areas: areasOn(card, code),
+    issuedAt: iso(card.t),
+    start: iso(latest.onset || card.t),
+    end: hasEnd ? iso(latest.ends || latest.expires) : null,
+    sourceName: NWS_NAME,
+    sourceUrl: card.url
+  };
+}
+
+function alertsFor(code) {
+  return C.S.cards
+    .filter((c) => c.src === 'nws' && c.active && c.isl.includes(code))
+    .sort((a, b) => LEVEL_RANK[a.baseLevel] - LEVEL_RANK[b.baseLevel] || b.t - a.t)
+    .map((c) => alertJSON(c, code));
+}
+
+function alertsStatus() {
+  if (C.S.nws.status === 'ok') return 'ok';
+  return C.S.nws.at ? 'stale' : 'unavailable';
+}
+
+function roadClosures(island) {
+  if (island !== 'hawaii') {
+    return {
+      coverage: 'none', status: 'not_covered', items: [],
+      note: '808 Alerts only carries Hawaiʻi County road closures. No items here does not mean the roads are open.',
+      sourceName: 'Hawaiʻi Department of Transportation', sourceUrl: 'https://hidot.hawaii.gov/weather-traffic/'
+    };
+  }
+  const base = { coverage: 'county', sourceName: 'Hawaiʻi County Civil Defense', sourceUrl: C.HCCDA_DASH };
+  if (C.S.roads.status !== 'ok' && !C.S.roads.items.length) {
+    return { ...base, status: 'unavailable', items: [], note: 'The county road closure map is not answering. That does not mean the roads are open.' };
+  }
+  return {
+    ...base,
+    status: C.S.roads.status === 'ok' ? 'ok' : 'stale',
+    checkedAt: iso(C.S.roads.at),
+    note: 'County roads only. State highways are posted separately by the Hawaiʻi Department of Transportation.',
+    items: C.roadRows().map((r) => ({
+      name: r.name,
+      status: r.lane ? 'one_lane' : 'closed',
+      type: r.type,
+      location: r.loc || null,
+      mileMarker: r.mm || null,
+      district: r.district || null,
+      reason: r.reason || null,
+      notes: r.notes || null,
+      alternateRoute: r.alt || null,
+      since: iso(r.t),
+      isNew: Boolean(r.fresh),
+      mapUrl: r.map || null
+    }))
+  };
+}
+
+function power(county) {
+  if (!county) {
+    return {
+      coverage: 'none', status: 'not_covered', customersOut: null,
+      note: 'Kauaʻi is served by KIUC, which 808 Alerts does not track. No figure here does not mean no outages.',
+      sourceName: 'KIUC', sourceUrl: 'https://kiuc.coop/outage-center'
+    };
+  }
+  const d = C.S.heco.items.find((x) => x && x.county === county);
+  if (!d) {
+    return {
+      coverage: 'county', status: 'unavailable', customersOut: null,
+      note: 'Hawaiian Electric updates could not be loaded. That does not mean there are no outages.',
+      sourceName: 'Hawaiian Electric', sourceUrl: 'https://www.hawaiianelectric.com/'
+    };
+  }
+  const recent = d.published && Date.now() - Date.parse(d.published + 'T00:00:00-10:00') < WEEK_MS;
+  const out = recent && d.available && Number(d.out) > 0 ? Number(d.out) : null;
+  return {
+    coverage: 'county',
+    status: C.S.heco.status === 'ok' ? 'ok' : 'stale',
+    county: d.countyName,
+    customersOut: out,
+    asOf: out !== null ? d.asOf || null : null,
+    headline: recent ? d.title || null : null,
+    publishedOn: recent ? d.published : null,
+    note: out !== null ? d.caveat : d.coverage,
+    sourceName: d.source || 'Hawaiian Electric',
+    sourceUrl: d.sourceUrl || 'https://www.hawaiianelectric.com/'
+  };
+}
+
+function json(body, status, cacheControl, extra) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      'content-type': 'application/json; charset=utf-8',
+      'cache-control': cacheControl,
+      'access-control-allow-origin': '*',
+      ...extra
+    }
+  });
+}
+function badRequest(error, message) {
+  return json({ error, message, allowed: ALLOWED }, 400, 'no-store');
+}
+function unavailable() {
+  return json({
+    error: 'temporarily_unavailable',
+    message: 'Alert data could not be loaded. This does not mean there are no alerts.'
+  }, 503, 'no-store', { 'retry-after': '30' });
+}
+
+export async function onRequestGet(ctx) {
+  const url = new URL(ctx.request.url);
+  const island = url.searchParams.get('island');
+  if (!island) return badRequest('missing_island', 'Add ?island=oahu, maui, kauai or hawaii.');
+  if (!Object.hasOwn(ISLANDS, island)) return badRequest('unknown_island', 'Unknown island. Use oahu, maui, kauai or hawaii.');
+
+  try {
+    // One cache entry per island, whatever else is on the query string.
+    const key = new Request(url.origin + url.pathname + '?island=' + island);
+    const hit = await caches.default.match(key);
+    if (hit) return hit;
+
+    if (!(await freshData(ctx)) || C.S.nws.status === 'loading') return unavailable();
+
+    const info = ISLANDS[island];
+    const status = alertsStatus();
+    const res = json({
+      island,
+      islandName: info.name,
+      updatedAt: iso(C.S.checkedAt),
+      alertsStatus: status,
+      alertsAsOf: iso(C.S.nws.at),
+      alerts: alertsFor(info.code),
+      roadClosures: roadClosures(island),
+      power: power(info.county),
+      notice: NOTICE
+    }, 200, status === 'ok' ? CACHE_5_MIN : 'no-store');
+
+    if (status === 'ok') ctx.waitUntil(caches.default.put(key, res.clone()));
+    return res;
+  } catch (e) {
+    return unavailable();
+  }
+}

@@ -7,7 +7,8 @@
     "/maui-alerts/*",
     "/hawaii-island-alerts/*",
     "/kauai-alerts/*",
-    "/big-island-road-closures/*"
+    "/big-island-road-closures/*",
+    "/api/app/today"
   ],
   "exclude": []
 }

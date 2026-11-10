@@ -159,7 +159,7 @@ var S = {
 function trimFeature(f) {
   var p = f.properties;
   return {
-    id: p.id, sent: Date.parse(p.sent), expires: p.expires ? Date.parse(p.expires) : 0, ends: p.ends ? Date.parse(p.ends) : 0,
+    id: p.id, sent: Date.parse(p.sent), onset: p.onset ? Date.parse(p.onset) : 0, expires: p.expires ? Date.parse(p.expires) : 0, ends: p.ends ? Date.parse(p.ends) : 0,
     event: p.event, type: p.messageType, status: p.status, area: p.areaDesc, ugc: (p.geocode && p.geocode.UGC) || [],
     refs: (p.references || []).map(function (r) { return r.identifier; }),
     nhead: (p.parameters && p.parameters.NWSheadline && p.parameters.NWSheadline[0]) || '',
@@ -1008,4 +1008,4 @@ function announce(rec, snap, isl) {
   return out;
 }
 
-export { S, setFetchHeaders, loadAll, loadNWSHistory, assemble, feedHTML, bannerHTML, rightNowHTML, findCard, alertPath, detailHTML, detailTitle, detailDesc, missingHTML, roadsHTML, mapHref, tm, heroHTML, countiesHTML, heroSig, windowStart as __ws, alertSnapshot, announce };
+export { S, setFetchHeaders, loadAll, loadNWSHistory, assemble, feedHTML, bannerHTML, rightNowHTML, findCard, alertPath, detailHTML, detailTitle, detailDesc, missingHTML, roadsHTML, mapHref, tm, heroHTML, countiesHTML, heroSig, windowStart as __ws, alertSnapshot, announce, roadRows, place, Z, HCCDA_DASH };
